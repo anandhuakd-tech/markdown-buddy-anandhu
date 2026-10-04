@@ -1,0 +1,170 @@
+---
+title: "Inventory Analysis Documentation"
+author: "Anandhu Kannempilly Parambil"
+date: "October 2026"
+output: html_document
+---
+
+# AI Assistance Declaration
+
+AI Assistance Declaration: I used ChatGPT (GPT-5.6 Sol, OpenAI, October 2026) for Markdown organization, R Markdown formatting suggestions, and writing assistance. Prompts used are documented below. I manually reviewed the documentation and compared the examples with my R script. All final calculations are done by myself. I am responsible for the accuracy and originality of this work.
+
+# Purpose
+
+The purpose of this R Markdown document is to explain the `inventory_analysis.R` script.
+
+The script uses a synthetic inventory dataset to:
+
+- Store product information.
+- Calculate inventory value.
+- Calculate total inventory value.
+- Identify products below their reorder levels.
+- Summarize inventory quantities by category.
+
+No real or personal data is used.
+
+# Inputs
+
+The script uses a synthetic dataset containing:
+
+- `Product_ID`
+- `Product_Name`
+- `Category`
+- `Quantity`
+- `Reorder_Level`
+- `Unit_Price`
+
+The inventory dataset is created using the following R code:
+
+```{r}
+inventory <- data.frame(
+  Product_ID = c("P001", "P002", "P003", "P004", "P005",
+                 "P006", "P007", "P008", "P009", "P010"),
+
+  Product_Name = c(
+    "Laptop", "Keyboard", "Office Chair", "Desk",
+    "Printer Paper", "Pens", "Monitor",
+    "Filing Cabinet", "Stapler", "Mouse"
+  ),
+
+  Category = c(
+    "Electronics", "Electronics", "Furniture",
+    "Furniture", "Office Supplies", "Office Supplies",
+    "Electronics", "Furniture", "Office Supplies",
+    "Electronics"
+  ),
+
+  Quantity = c(25, 8, 12, 4, 50, 18, 7, 9, 30, 14),
+
+  Reorder_Level = c(10, 15, 5, 6, 20, 25, 10, 4, 10, 12),
+
+  Unit_Price = c(850, 35, 180, 250, 8, 2, 220, 140, 12, 25)
+)
+
+inventory
+```
+
+# Processing
+
+## Calculate Inventory Value
+
+Inventory value is calculated by multiplying the quantity of each product by its unit price.
+
+```{r}
+inventory$Inventory_Value <-
+  inventory$Quantity * inventory$Unit_Price
+
+inventory
+```
+
+## Calculate Total Inventory Value
+
+The `sum()` function calculates the total value of all inventory.
+
+```{r}
+total_inventory_value <- sum(inventory$Inventory_Value)
+
+total_inventory_value
+```
+
+## Identify Low-Stock Products
+
+A product is considered low stock when its current quantity is below its reorder level.
+
+```{r}
+low_stock <- inventory[
+  inventory$Quantity < inventory$Reorder_Level,
+]
+
+low_stock
+```
+
+## Summarize Inventory by Category
+
+The `aggregate()` function calculates total inventory quantity for each category.
+
+```{r}
+category_summary <- aggregate(
+  Quantity ~ Category,
+  data = inventory,
+  FUN = sum
+)
+
+category_summary
+```
+
+# Outputs
+
+The analysis produces:
+
+1. The inventory dataset.
+2. Inventory value for each product.
+3. Total inventory value.
+4. Products below their reorder levels.
+5. Total quantity by product category.
+
+# Expected Findings
+
+The expected low-stock products are:
+
+- Keyboard
+- Desk
+- Pens
+- Monitor
+
+The expected total inventory value is **$28,656**.
+
+# Verification
+
+I verified the project by comparing the documentation with the R script and manually checking selected calculations.
+
+For example:
+
+- Laptop inventory value: `25 × $850 = $21,250`
+- Keyboard quantity is `8`, which is below its reorder level of `15`.
+
+The R Markdown document should also be knitted or previewed in RStudio or Posit Cloud to verify that the code chunks and headings render correctly.
+
+# Conclusion
+
+This project demonstrates how R can be used for basic inventory analysis. The script calculates inventory values, identifies products that may need replenishment, and summarizes inventory by category.
+
+R Markdown provides a clear way to combine explanations and R code in one document.
+
+# AI Assistance
+
+The following prompts were used with ChatGPT:
+
+**Seed Prompt:**
+
+> Here's my R script description. Suggest Markdown formatting and code block examples.
+
+**Refinement Prompt:**
+
+> Add syntax highlighting and improve section organization using Purpose, Inputs, and Outputs.
+
+**Critique/Validation Prompt:**
+
+> Is the Markdown consistent with R Markdown best practices?
+
+I reviewed the AI-generated suggestions and compared them with the final R script before including them in the documentation.
